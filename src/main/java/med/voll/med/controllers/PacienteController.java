@@ -3,6 +3,7 @@ package med.voll.med.controllers;
 import med.voll.med.models.Pacientes;
 import med.voll.med.models.dtos.PacienteAtualizaDTO;
 import med.voll.med.models.dtos.PacienteCadastroDTO;
+import med.voll.med.models.dtos.PacienteDetalheDTO;
 import med.voll.med.models.dtos.PacienteListagemDTO;
 import med.voll.med.services.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,9 @@ public class PacienteController {
     private PacienteService service;
 
     @PostMapping
-    public ResponseEntity<Pacientes> create(@RequestBody PacienteCadastroDTO obj){
-        var paciente = service.create(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(paciente.getId()).toUri();
+    public ResponseEntity<PacienteDetalheDTO> create(@RequestBody PacienteCadastroDTO obj){
+        PacienteDetalheDTO paciente = service.create(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(paciente.id()).toUri();
         return ResponseEntity.created(uri).body(paciente);
     }
 

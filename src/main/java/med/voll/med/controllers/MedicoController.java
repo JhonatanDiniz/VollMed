@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import med.voll.med.models.Medicos;
 import med.voll.med.models.dtos.MedicoAtualizaDTO;
 import med.voll.med.models.dtos.MedicoCadastroDTO;
+import med.voll.med.models.dtos.MedicoDetalheDTO;
 import med.voll.med.models.dtos.MedicoListagemDTO;
 import med.voll.med.services.MedicoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,9 @@ public class MedicoController {
     @Autowired
     private MedicoService service;
     @PostMapping
-    public ResponseEntity<Medicos> create(@RequestBody @Valid MedicoCadastroDTO obj){
-        Medicos medico = service.create(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(medico.getId()).toUri();
+    public ResponseEntity<MedicoDetalheDTO> create(@RequestBody @Valid MedicoCadastroDTO obj){
+        MedicoDetalheDTO medico = service.create(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(medico.id()).toUri();
         return ResponseEntity.created(uri).body(medico);
     }
 

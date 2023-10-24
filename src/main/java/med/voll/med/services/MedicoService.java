@@ -3,6 +3,7 @@ package med.voll.med.services;
 import med.voll.med.models.Medicos;
 import med.voll.med.models.dtos.MedicoAtualizaDTO;
 import med.voll.med.models.dtos.MedicoCadastroDTO;
+import med.voll.med.models.dtos.MedicoDetalheDTO;
 import med.voll.med.models.dtos.MedicoListagemDTO;
 import med.voll.med.repositories.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,10 @@ public class MedicoService {
     @Autowired
     private MedicoRepository repository;
 
-    public Medicos create(MedicoCadastroDTO obj){
+    public MedicoDetalheDTO create(MedicoCadastroDTO obj){
         Medicos medico = new Medicos(obj);
-        return repository.save(medico);
+        repository.save(medico);
+        return new MedicoDetalheDTO(medico);
     }
 
     public Page<MedicoListagemDTO> findAll(Pageable paginacao){
