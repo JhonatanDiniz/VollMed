@@ -24,12 +24,18 @@ public class PacienteService {
     }
 
     public Page<PacienteListagemDTO> findAll(Pageable paginacao){
-       return repository.findAll(paginacao).map(PacienteListagemDTO::new);
+       return repository.findAllByAtivoTrue(paginacao).map(PacienteListagemDTO::new);
     }
 
     public void update(PacienteAtualizaDTO dados){
         var paciente = repository.getReferenceById(dados.id());
         paciente.atualizaDados(dados);
+        repository.save(paciente);
+    }
+
+    public void delete(Long id){
+        var paciente = repository.getReferenceById(id);
+        paciente.excluir();
         repository.save(paciente);
     }
 }

@@ -24,6 +24,7 @@ public class Pacientes {
     private String telefone;
     private String cpf;
     private Endereco endereco;
+    private boolean ativo;
 
     public Pacientes(PacienteCadastroDTO obj) {
         this.nome = obj.nome();
@@ -31,6 +32,7 @@ public class Pacientes {
         this.telefone = obj.telefone();
         this.cpf = obj.cpf();
         this.endereco = new Endereco(obj.endereco());
+        this.ativo = true;
     }
 
     public void atualizaDados(PacienteAtualizaDTO dados) {
@@ -43,5 +45,8 @@ public class Pacientes {
         if(dados.endereco() != null){
             this.endereco.atualizaEndereco(dados.endereco());
         }
+    }
+    public void excluir() {
+        this.ativo = false;
     }
 }
