@@ -1,6 +1,7 @@
 package med.voll.med.controllers;
 
 import med.voll.med.models.Pacientes;
+import med.voll.med.models.dtos.PacienteAtualizaDTO;
 import med.voll.med.models.dtos.PacienteCadastroDTO;
 import med.voll.med.models.dtos.PacienteListagemDTO;
 import med.voll.med.services.PacienteService;
@@ -33,5 +34,11 @@ public class PacienteController {
     public ResponseEntity<Page<PacienteListagemDTO>> findAll(@PageableDefault(size = 10, sort = "nome") Pageable paginacao){
         var list = service.findAll(paginacao);
         return ResponseEntity.ok().body(list);
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody PacienteAtualizaDTO dados){
+        service.update(dados);
+        return ResponseEntity.ok().build();
     }
 }

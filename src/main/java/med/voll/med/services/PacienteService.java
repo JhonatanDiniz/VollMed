@@ -1,6 +1,7 @@
 package med.voll.med.services;
 
 import med.voll.med.models.Pacientes;
+import med.voll.med.models.dtos.PacienteAtualizaDTO;
 import med.voll.med.models.dtos.PacienteCadastroDTO;
 import med.voll.med.models.dtos.PacienteListagemDTO;
 import med.voll.med.repositories.PacienteRepository;
@@ -24,5 +25,11 @@ public class PacienteService {
 
     public Page<PacienteListagemDTO> findAll(Pageable paginacao){
        return repository.findAll(paginacao).map(PacienteListagemDTO::new);
+    }
+
+    public void update(PacienteAtualizaDTO dados){
+        var paciente = repository.getReferenceById(dados.id());
+        paciente.atualizaDados(dados);
+        repository.save(paciente);
     }
 }
