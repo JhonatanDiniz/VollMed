@@ -37,6 +37,12 @@ public class PacienteController {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<PacienteDetalheDTO> findById(@PathVariable Long id){
+        var obj = service.findById(id);
+        return ResponseEntity.ok().body(obj);
+    }
+
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody PacienteAtualizaDTO dados){
         service.update(dados);

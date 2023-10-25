@@ -29,6 +29,11 @@ public class PacienteService {
        return repository.findAllByAtivoTrue(paginacao).map(PacienteListagemDTO::new);
     }
 
+    public PacienteDetalheDTO findById(Long id){
+        Pacientes paciente = repository.getReferenceById(id);
+        return new PacienteDetalheDTO(paciente);
+    }
+
     public void update(PacienteAtualizaDTO dados){
         var paciente = repository.getReferenceById(dados.id());
         paciente.atualizaDados(dados);
