@@ -38,6 +38,12 @@ public class MedicoController {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<MedicoDetalheDTO> findById(@PathVariable Long id){
+        var dto = service.findById(id);
+        return ResponseEntity.ok().body(dto);
+    }
+
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody @Valid MedicoAtualizaDTO obj){
        service.update(obj);

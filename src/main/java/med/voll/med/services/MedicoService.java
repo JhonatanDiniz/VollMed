@@ -29,6 +29,11 @@ public class MedicoService {
         return repository.findByAtivoTrue(paginacao).map(MedicoListagemDTO::new);
     }
 
+    public MedicoDetalheDTO findById(Long id){
+        Medicos medico = repository.getReferenceById(id);
+        return new MedicoDetalheDTO(medico);
+    }
+
     public void update(MedicoAtualizaDTO dados){
         var medico = repository.getReferenceById(dados.id());
         medico.atualizaDados(dados);
