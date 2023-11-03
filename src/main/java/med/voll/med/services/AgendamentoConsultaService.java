@@ -4,7 +4,9 @@ import med.voll.med.exceptions.ValidacaoException;
 import med.voll.med.models.Consulta;
 import med.voll.med.models.Medicos;
 import med.voll.med.models.dtos.AgendamentoConsultaDTO;
+import med.voll.med.models.dtos.CancelamentoConsultaDTO;
 import med.voll.med.models.dtos.ConsultaDetalheDTO;
+import med.voll.med.models.validacoes.ValidadorCancelamentoConsulta;
 import med.voll.med.models.validacoes.ValidadorConsultas;
 import med.voll.med.repositories.ConsultaRepository;
 import med.voll.med.repositories.MedicoRepository;
@@ -27,7 +29,10 @@ public class AgendamentoConsultaService {
     private PacienteRepository pacienteRepository;
 
     @Autowired
-    private List<ValidadorConsultas> validadores;
+    private List<ValidadorConsultas> validadoresAgendamento;
+
+    @Autowired
+    private List<ValidadorCancelamentoConsulta> validadoresCancelamento;
 
     public ConsultaDetalheDTO agendaConsulta(AgendamentoConsultaDTO agendamento){
         if(!pacienteRepository.existsById(agendamento.idPaciente())){
@@ -38,7 +43,7 @@ public class AgendamentoConsultaService {
             throw new ValidacaoException("Id do médico não existe.");
         }
 
-        validadores.forEach(v -> v.validar(agendamento));
+        validadoresAgendamento.forEach(v -> v.validar(agendamento));
 
         var paciente = pacienteRepository.getReferenceById(agendamento.idPaciente());
         var medico = escolherMedico(agendamento);
@@ -47,9 +52,19 @@ public class AgendamentoConsultaService {
         }
 
 
-        var consulta = new Consulta(null, medico, paciente, agendamento.data());
+        var consulta = new Consulta(null, medico, paciente, agendamento.data(), null);
         consultaRepository.save(consulta);
         return new ConsultaDetalheDTO(consulta);
+    }
+
+    public void cancelarConsulta(CancelamentoConsultaDTO cancelamento){
+        if(!consultaRepository.existsById(cancelamento.idConsulta())){
+            throw new ValidacaoException("Id da consulta não existe.");
+        }
+
+        validadoresCancelamento.forEach(v -> v.validar(cancelamento));
+
+        consultaRepository.deleteById(cancelamento.idConsulta());
     }
 
     private Medicos escolherMedico(AgendamentoConsultaDTO agendamento) {

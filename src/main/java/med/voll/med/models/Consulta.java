@@ -2,6 +2,7 @@ package med.voll.med.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import med.voll.med.models.enums.MotivoCancelamento;
 
 import java.time.LocalDateTime;
 
@@ -26,4 +27,8 @@ public class Consulta {
     private Pacientes paciente;
 
     private LocalDateTime data;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "motivocancelamento")
+    private MotivoCancelamento motivoCancelamento;
 }
