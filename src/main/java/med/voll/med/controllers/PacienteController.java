@@ -1,5 +1,6 @@
 package med.voll.med.controllers;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import med.voll.med.models.Pacientes;
 import med.voll.med.models.dtos.PacienteAtualizaDTO;
 import med.voll.med.models.dtos.PacienteCadastroDTO;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/pacientes")
+@SecurityRequirement(name = "bearer-key")
 public class PacienteController {
 
     @Autowired
