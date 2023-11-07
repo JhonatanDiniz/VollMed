@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @SpringBootTest
@@ -25,6 +26,15 @@ class ConsultaControllerTest {
     @DisplayName("Deveria devolver código http 400 quando informações são invalidas")
     void agendar_cenario1() throws Exception {
         var response = mvc.perform(post("/consultas"))
+                .andReturn().getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @DisplayName("Deveria devolver http 400 quando informações são invalidas")
+    void cancelar_cenario1() throws Exception {
+        var response = mvc.perform(delete("/consultas"))
                 .andReturn().getResponse();
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
